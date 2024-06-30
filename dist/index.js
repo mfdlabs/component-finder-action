@@ -25024,8 +25024,6 @@ async function run() {
             return;
         }
         // Step 2: Find the components
-        const componentFileNameRegex = new RegExp(core.getInput('component-file-name-regex', { required: false }) ||
-            defaultComponentFileNameRegex.source);
         const foundComponents = [];
         const componentMap = {};
         // Recursively search for the component configuration file
@@ -25038,10 +25036,11 @@ async function run() {
             for (const file of files) {
                 const filePath = path_1.default.join(dir, file);
                 const stat = fs_1.default.statSync(filePath);
+                console.log(`Checking file: ${filePath}`);
                 if (stat.isDirectory()) {
                     searchForComponent(filePath);
                 }
-                else if (componentFileNameRegex.test(file)) {
+                else if (defaultComponentFileNameRegex.test(file)) {
                     const componentConfig = fs_1.default.readFileSync(filePath, 'utf8');
                     const component = yaml_1.default.parse(componentConfig).component;
                     for (const neededComponent of newComponents) {

@@ -98,11 +98,6 @@ export async function run(): Promise<void> {
 
     // Step 2: Find the components
 
-    const componentFileNameRegex = new RegExp(
-      core.getInput('component-file-name-regex', { required: false }) ||
-        defaultComponentFileNameRegex.source
-    )
-
     const foundComponents = []
     const componentMap: { [key: string]: string } = {}
 
@@ -120,9 +115,11 @@ export async function run(): Promise<void> {
         const filePath = path.join(dir, file)
         const stat = fs.statSync(filePath)
 
+        console.log(`Checking file: ${filePath}`)
+
         if (stat.isDirectory()) {
           searchForComponent(filePath)
-        } else if (componentFileNameRegex.test(file)) {
+        } else if (defaultComponentFileNameRegex.test(file)) {
           const componentConfig = fs.readFileSync(filePath, 'utf8')
           const component = yaml.parse(componentConfig).component
 
