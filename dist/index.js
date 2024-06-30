@@ -25044,7 +25044,7 @@ async function run() {
                 else if (componentFileNameRegex.test(file)) {
                     const componentConfig = fs_1.default.readFileSync(filePath, 'utf8');
                     const component = yaml_1.default.parse(componentConfig).component;
-                    for (const neededComponent of components) {
+                    for (const neededComponent of newComponents) {
                         if (neededComponent.split(':')[0] === component) {
                             componentMap[neededComponent] = path_1.default.resolve(filePath);
                             foundComponents.push(component);
@@ -25060,8 +25060,8 @@ async function run() {
             searchForComponent(searchDir);
         }
         // Make a warning for each component that was not found
-        for (const component of components.map(c => c.split(':')[0])) {
-            if (!components.includes(component)) {
+        for (const component of newComponents.map(c => c.split(':')[0])) {
+            if (!newComponents.includes(component)) {
                 core.warning(`Component ${component} not found`);
             }
         }

@@ -126,7 +126,7 @@ export async function run(): Promise<void> {
           const componentConfig = fs.readFileSync(filePath, 'utf8')
           const component = yaml.parse(componentConfig).component
 
-          for (const neededComponent of components) {
+          for (const neededComponent of newComponents) {
             if (neededComponent.split(':')[0] === component) {
               componentMap[neededComponent] = path.resolve(filePath)
 
@@ -146,8 +146,8 @@ export async function run(): Promise<void> {
     }
 
     // Make a warning for each component that was not found
-    for (const component of components.map(c => c.split(':')[0])) {
-      if (!components.includes(component)) {
+    for (const component of newComponents.map(c => c.split(':')[0])) {
+      if (!newComponents.includes(component)) {
         core.warning(`Component ${component} not found`)
       }
     }
