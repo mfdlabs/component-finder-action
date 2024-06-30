@@ -24966,7 +24966,7 @@ const defaultComponentFileNameRegex = /^\.component\.ya?ml$/;
 async function run() {
     try {
         const components = core
-            .getInput('components', { required: true })
+            .getInput('components', { required: false })
             ?.split(',')
             .map(component => component.trim());
         const componentSearchDirectories = core
@@ -25001,7 +25001,8 @@ async function run() {
         const prettyDirectories = componentSearchDirectories.length === 0
             ? 'all directories'
             : componentSearchDirectories.join(', ');
-        core.info(`Finding components: ${components.join(', ')} in directories: ${prettyDirectories}`);
+        const prettyComponents = components.length === 0 ? 'all components' : components.join(', ');
+        core.info(`Finding components: ${prettyComponents} in directories: ${prettyDirectories}`);
         // Step 1: Validate the components
         const newComponents = [];
         for (const component of components) {
@@ -25044,14 +25045,19 @@ async function run() {
                     const componentConfig = fs_1.default.readFileSync(filePath, 'utf8');
                     const component = yaml_1.default.parse(componentConfig).component;
                     console.log(`Found component: ${component}`);
-                    for (const neededComponent of newComponents) {
-                        console.log(`Checking if ${neededComponent} is in ${component}`);
-                        const [neededComponentName] = neededComponent.split(':');
-                        console.log(`Needed component name: ${neededComponentName}`);
-                        if (neededComponentName === component) {
-                            componentMap[neededComponent] = path_1.default.resolve(filePath);
-                            foundComponents.push(component);
+                    if (newComponents.length > 0) {
+                        for (const neededComponent of newComponents) {
+                            console.log(`Checking if ${neededComponent} is in ${component}`);
+                            const [neededComponentName] = neededComponent.split(':');
+                            console.log(`Needed component name: ${neededComponentName}`);
+                            if (neededComponentName === component) {
+                                componentMap[neededComponent] = path_1.default.resolve(filePath);
+                                foundComponents.push(component);
+                            }
                         }
+                    }
+                    else {
+                        componentMap[`${component}:latest`] = path_1.default.resolve(filePath);
                     }
                 }
             }

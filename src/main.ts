@@ -14,7 +14,7 @@ const defaultComponentFileNameRegex = /^\.component\.ya?ml$/
 export async function run(): Promise<void> {
   try {
     const components = core
-      .getInput('components', { required: true })
+      .getInput('components', { required: false })
       ?.split(',')
       .map(component => component.trim())
     const componentSearchDirectories = core
@@ -64,8 +64,11 @@ export async function run(): Promise<void> {
         ? 'all directories'
         : componentSearchDirectories.join(', ')
 
+    const prettyComponents =
+      components.length === 0 ? 'all components' : components.join(', ')
+
     core.info(
-      `Finding components: ${components.join(', ')} in directories: ${prettyDirectories}`
+      `Finding components: ${prettyComponents} in directories: ${prettyDirectories}`
     )
 
     // Step 1: Validate the components
@@ -125,18 +128,22 @@ export async function run(): Promise<void> {
 
           console.log(`Found component: ${component}`)
 
-          for (const neededComponent of newComponents) {
-            console.log(`Checking if ${neededComponent} is in ${component}`)
+          if (newComponents.length > 0) {
+            for (const neededComponent of newComponents) {
+              console.log(`Checking if ${neededComponent} is in ${component}`)
 
-            const [neededComponentName] = neededComponent.split(':')
+              const [neededComponentName] = neededComponent.split(':')
 
-            console.log(`Needed component name: ${neededComponentName}`)
+              console.log(`Needed component name: ${neededComponentName}`)
 
-            if (neededComponentName === component) {
-              componentMap[neededComponent] = path.resolve(filePath)
+              if (neededComponentName === component) {
+                componentMap[neededComponent] = path.resolve(filePath)
 
-              foundComponents.push(component)
+                foundComponents.push(component)
+              }
             }
+          } else {
+            componentMap[`${component}:latest`] = path.resolve(filePath)
           }
         }
       }
