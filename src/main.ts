@@ -132,7 +132,7 @@ export async function run(): Promise<void> {
 
             console.log(`Needed component name: ${neededComponentName}`)
 
-            if (neededComponentName.includes(component)) {
+            if (neededComponentName === component) {
               componentMap[neededComponent] = path.resolve(filePath)
 
               foundComponents.push(component)
