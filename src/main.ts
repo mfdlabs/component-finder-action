@@ -98,7 +98,7 @@ export async function run(): Promise<void> {
 
     // Step 2: Find the components
 
-    const foundComponents = []
+    const foundComponents: string[] = []
     const componentMap: { [key: string]: string } = {}
 
     // Recursively search for the component configuration file
@@ -152,10 +152,12 @@ export async function run(): Promise<void> {
 
     // Make a warning for each component that was not found
     for (const component of newComponents.map(c => c.split(':')[0])) {
-      if (!newComponents.includes(component)) {
+      if (!foundComponents.includes(component)) {
         core.warning(`Component ${component} not found`)
       }
     }
+
+    core.setOutput('components', JSON.stringify(componentMap))
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

@@ -25064,10 +25064,11 @@ async function run() {
         }
         // Make a warning for each component that was not found
         for (const component of newComponents.map(c => c.split(':')[0])) {
-            if (!newComponents.includes(component)) {
+            if (!foundComponents.includes(component)) {
                 core.warning(`Component ${component} not found`);
             }
         }
+        core.setOutput('components', JSON.stringify(componentMap));
     }
     catch (error) {
         // Fail the workflow run if an error occurs
