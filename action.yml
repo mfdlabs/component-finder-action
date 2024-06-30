@@ -1,6 +1,8 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'MFDLABS Component Finder'
+description:
+  'Finds components within a project, with an optional folder filter. If not
+  specified it will search the entire project (excluding the .git folder).'
+author: 'MFDLABS'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
@@ -9,15 +11,26 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  components:
+    description: 'Comma delimited list of components to search for.'
     required: true
-    default: '1000'
+
+  search-folders:
+    description:
+      'Comma delimited list of folders to search within. If not specified it
+      will search the entire project (excluding the .git folder).'
+    required: false
+
+  component-file-name-regex:
+    description:
+      'Regex to match the component file name. Default is "^component\.ya?ml$".'
+    required: false
+    default: '^component\.ya?ml$'
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  components:
+    description: 'A map of components to their locations.'
 
 runs:
   using: node20
