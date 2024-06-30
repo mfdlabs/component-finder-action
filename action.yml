@@ -15,7 +15,7 @@ inputs:
     description: 'Comma delimited list of components to search for.'
     required: true
 
-  search-folders:
+  component-search-directories:
     description:
       'Comma delimited list of folders to search within. If not specified it
       will search the entire project (excluding the .git folder).'
