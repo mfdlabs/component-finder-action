@@ -57,9 +57,9 @@ jobs:
         id: test-action
         uses: ./
         with:
-          components: 'test,action'
-          component-search-directories: 'src'
+          components: 'grid-bot'
+          component-search-directories: 'tests'
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+        run: echo "${{ steps.test-action.outputs.components }}"

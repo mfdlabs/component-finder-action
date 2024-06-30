@@ -25043,6 +25043,7 @@ async function run() {
                 else if (defaultComponentFileNameRegex.test(file)) {
                     const componentConfig = fs_1.default.readFileSync(filePath, 'utf8');
                     const component = yaml_1.default.parse(componentConfig).component;
+                    console.log(`Found component: ${component}`);
                     for (const neededComponent of newComponents) {
                         if (neededComponent.split(':')[0] === component) {
                             componentMap[neededComponent] = path_1.default.resolve(filePath);

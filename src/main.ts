@@ -123,6 +123,8 @@ export async function run(): Promise<void> {
           const componentConfig = fs.readFileSync(filePath, 'utf8')
           const component = yaml.parse(componentConfig).component
 
+          console.log(`Found component: ${component}`)
+
           for (const neededComponent of newComponents) {
             if (neededComponent.split(':')[0] === component) {
               componentMap[neededComponent] = path.resolve(filePath)
