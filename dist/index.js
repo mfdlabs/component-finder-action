@@ -24958,7 +24958,7 @@ const fs_1 = __importDefault(__nccwpck_require__(7147));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const yaml_1 = __importDefault(__nccwpck_require__(4083));
 const validComponentRegex = /^[a-zA-Z0-9_\-.]+(:[a-zA-Z0-9_\-.]+)?$/;
-const defaultComponentFileNameRegex = /^component\.ya?ml$/;
+const defaultComponentFileNameRegex = /^\.component\.ya?ml$/;
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.

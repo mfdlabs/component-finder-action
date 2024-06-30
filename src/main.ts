@@ -5,7 +5,7 @@ import path from 'path'
 import yaml from 'yaml'
 
 const validComponentRegex = /^[a-zA-Z0-9_\-.]+(:[a-zA-Z0-9_\-.]+)?$/
-const defaultComponentFileNameRegex = /^component\.ya?ml$/
+const defaultComponentFileNameRegex = /^\.component\.ya?ml$/
 
 /**
  * The main function for the action.
