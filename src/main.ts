@@ -22,10 +22,41 @@ export async function run(): Promise<void> {
       ?.split(',')
       .map(directory => directory.trim())
 
+    // Clean out any empty strings
+    if (components) {
+      components.filter(Boolean)
+    }
+
+    if (componentSearchDirectories) {
+      componentSearchDirectories.filter(Boolean)
+    }
+
     if (!components || components.length === 0) {
       core.setFailed('No components provided to search for.')
 
       return
+    }
+
+    // Make sure component search directories are resolved to the absolute path of the repository
+    const repositoryPath = process.env.GITHUB_WORKSPACE
+
+    if (repositoryPath === undefined) {
+      core.setFailed('No repository path found.')
+
+      return
+    }
+
+    if (componentSearchDirectories.length > 0) {
+      for (let i = 0; i < componentSearchDirectories.length; i++) {
+        const searchDir = componentSearchDirectories[i]
+
+        if (!path.isAbsolute(searchDir)) {
+          componentSearchDirectories[i] = path.resolve(
+            repositoryPath,
+            searchDir
+          )
+        }
+      }
     }
 
     const prettyDirectories =
