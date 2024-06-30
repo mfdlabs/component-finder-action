@@ -126,6 +126,8 @@ export async function run(): Promise<void> {
           console.log(`Found component: ${component}`)
 
           for (const neededComponent of newComponents) {
+            console.log(`Checking if ${neededComponent} is in ${component}`)
+
             if (neededComponent.split(':')[0] === component) {
               componentMap[neededComponent] = path.resolve(filePath)
 

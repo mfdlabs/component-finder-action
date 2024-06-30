@@ -25045,6 +25045,7 @@ async function run() {
                     const component = yaml_1.default.parse(componentConfig).component;
                     console.log(`Found component: ${component}`);
                     for (const neededComponent of newComponents) {
+                        console.log(`Checking if ${neededComponent} is in ${component}`);
                         if (neededComponent.split(':')[0] === component) {
                             componentMap[neededComponent] = path_1.default.resolve(filePath);
                             foundComponents.push(component);
