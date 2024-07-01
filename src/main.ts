@@ -17,25 +17,12 @@ export async function run(): Promise<void> {
       .getInput('components', { required: false })
       ?.split(',')
       .map(component => component.trim())
+      .filter(s => s.length > 0)
     const componentSearchDirectories = core
       .getInput('component-search-directories', { required: false })
       ?.split(',')
       .map(directory => directory.trim())
-
-    // Clean out any empty strings
-    if (components) {
-      components.filter(Boolean)
-    }
-
-    if (componentSearchDirectories) {
-      componentSearchDirectories.filter(Boolean)
-    }
-
-    if (!components || components.length === 0) {
-      core.setFailed('No components provided to search for.')
-
-      return
-    }
+      .filter(s => s.length > 0)
 
     // Make sure component search directories are resolved to the absolute path of the repository
     const repositoryPath = process.env.GITHUB_WORKSPACE
