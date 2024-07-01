@@ -25011,10 +25011,6 @@ async function run() {
                 newComponents.push(`${component}:latest`);
             }
         }
-        if (newComponents.length === 0) {
-            core.setFailed('No valid components provided to search for.');
-            return;
-        }
         // Step 2: Find the components
         const foundComponents = [];
         const componentMap = {};

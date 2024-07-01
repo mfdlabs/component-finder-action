@@ -80,12 +80,6 @@ export async function run(): Promise<void> {
       }
     }
 
-    if (newComponents.length === 0) {
-      core.setFailed('No valid components provided to search for.')
-
-      return
-    }
-
     // Step 2: Find the components
 
     const foundComponents: string[] = []
